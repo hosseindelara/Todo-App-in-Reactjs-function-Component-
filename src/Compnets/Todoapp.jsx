@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Container, Row, Col, Form,Button } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import AllTodos from './AllTodos'
 import NavComponet from './NavComponet';
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import DatePicker from "react-modern-calendar-datepicker";
+import SearchTodo from './SearchTodo';
 
 export default function Todoapp() {
     const [title, settitle] = useState('')
@@ -11,9 +12,7 @@ export default function Todoapp() {
     const [TodoList, setTodoList] = useState([])
     const [selectedDay, setSelectedDay] = useState(null);
 
-    const HandelOnchngTodo = e =>settitle(e.target.value)
-
-
+    const HandelOnchngTodo = e => settitle(e.target.value)
 
     const HandleSubmit = (e) => {
         e.preventDefault();
@@ -29,8 +28,7 @@ export default function Todoapp() {
                 todoTrash: false,
                 id: timenow,
                 DateGenerit: DaleShamsil,
-                EndDay:selectedDay?selectedDay.year+'/'+selectedDay.month+'/'+selectedDay.day:'زمان پایان انتخاب نشده'
-
+                EndDay: selectedDay ? selectedDay.year + '/' + selectedDay.month + '/' + selectedDay.day : 'زمان پایان انتخاب نشده'
 
             },
             ...TodoList],
@@ -40,34 +38,25 @@ export default function Todoapp() {
 
     }
 
-
     const HandelDone = idin => {
         setTodoList(state => ({
             TodoList: state.TodoList.map((todo, indexTodo) => {
-                if (indexTodo === idin) {
-                    todo.tododone = !todo.tododone
-                    //    todo.status=todo.status==='All'||'Trash'?'Done':'All'
-                }
+                if (indexTodo === idin) todo.tododone = !todo.tododone
                 return todo;
             })
         }));
 
     }
 
-
     const handelMenuAll = () => setstatus('All')
     const handelMenuTodo = () => setstatus('Todo')
     const handelMenuDone = () => setstatus('Done')
     const handelMenuTrash = () => setstatus('Trash')
 
-
     const HandelTerash = (index) => {
         setTodoList(item => ({
             TodoList: item.TodoList.map((item2, indexmap) => {
-                if (indexmap === index) {
-                    item2.todoTrash = !item2.todoTrash;
-                    // item2.status=item2.status==='All'||'Done'?'Trash':'All'
-                }
+                if (indexmap === index) { item2.todoTrash = !item2.todoTrash; }
                 return item2
             })
         }))
@@ -92,66 +81,55 @@ export default function Todoapp() {
     else if (status === 'Done') { render = DoneTask }
     else { render = TodoList }
 
-
     const minimumDates = {
         year: MiladotoShamsi()[0],
         month: MiladotoShamsi()[1],
         day: MiladotoShamsi()[2]
     };
-console.log();
+    console.log();
     return (
         <Container>
             <Row>
-                <Col className='mt-5 mb-5'>
-                    <Row>
-                        <Col lg={12} md={12} sm={12} xs={12}>
-                            <Form onSubmit={HandleSubmit}>
-                                <Form.Row>
-                                    <Col lg={6} md={6} sm={6} xs={12} className='mt-3'>
-                                        <Form.Control
-                                            placeholder='اضافه کردن کار....'
-                                            type='text'
-                                            value={title}
-                                            onChange={HandelOnchngTodo}
-                                        />
-                                    </Col>
-                                    <Col lg={3} md={3} sm={6} xs={12} className='mt-3'>
-                                        <DatePicker
-                                            value={selectedDay}
-                                            onChange={setSelectedDay}
-                                            minimumDate={minimumDates}
-                                            inputPlaceholder="انتخاب روز پایان"
-                                            shouldHighlightWeekends
-                                            locale="fa"
-                                        />
-                                    </Col>
-                                    <Col lg={3} md={3} sm={12} xs={12} className='mt-3'>
-                                        <Button
-                                            block
-                                            type='submit'
-                                        >اضافه کن</Button>
-                                    </Col>
-                                </Form.Row>
-                            </Form>
-                        </Col>
-                        <Col lg={12} md={12} sm={12} xs={12} className='mt-3'>
-                            <Form.Control
-                                type='text'
-                                placeholder='جستجو در میان کار ها'
-                            />
-                        </Col>
-                    </Row>
-
+                <Col lg={12} md={12} sm={12} xs={12} className='mt-5 mb-5'>
+                    <Form onSubmit={HandleSubmit}>
+                        <Form.Row>
+                            <Col lg={6} md={6} sm={6} xs={12} className='mt-3'>
+                                <Form.Control
+                                    placeholder='اضافه کردن کار....'
+                                    type='text'
+                                    value={title}
+                                    onChange={HandelOnchngTodo}
+                                />
+                            </Col>
+                            <Col lg={3} md={3} sm={6} xs={12} className='mt-3'>
+                                <DatePicker
+                                    value={selectedDay}
+                                    onChange={setSelectedDay}
+                                    minimumDate={minimumDates}
+                                    inputPlaceholder="انتخاب روز پایان"
+                                    shouldHighlightWeekends
+                                    locale="fa"
+                                />
+                            </Col>
+                            <Col lg={3} md={3} sm={12} xs={12} className='mt-3'>
+                                <Button
+                                    block
+                                    type='submit'
+                                >اضافه کن</Button>
+                            </Col>
+                        </Form.Row>
+                    </Form>
                 </Col>
             </Row>
+            <SearchTodo
+                itemSerch={TodoList}
+            />
             <NavComponet
                 TodoList={TodoList}
                 MenuAll={handelMenuAll}
                 MenuTodo={handelMenuTodo}
                 MenuDone={handelMenuDone}
-                MenuTrash={handelMenuTrash}
-
-            />
+                MenuTrash={handelMenuTrash} />
             <Row>
                 <Col>
                     {
@@ -169,15 +147,11 @@ console.log();
                             />
                         ))
                     }
-
                 </Col>
             </Row>
-
         </Container>
     )
 }
-
-
 
 function MiladotoShamsi() {
 
@@ -211,5 +185,4 @@ function MiladotoShamsi() {
     let finalDate = gregorian_to_jalali(newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate());
 
     return (finalDate)
-
 }
