@@ -2,7 +2,7 @@ import React from 'react'
 import { Row, Col, Nav, Badge } from 'react-bootstrap'
 export default function NavComponet(props) {
 
-    const { TodoList,MenuAll,MenuTodo,MenuDone,MenuTrash } = props;
+    const { TodoList, MenuAll, MenuTodo, MenuDone, MenuTrash } = props;
     let menuContorlDone = '';
     let menuContorlTrash = '';
     let menuContorlTodo = '';
@@ -35,18 +35,15 @@ export default function NavComponet(props) {
                 <Nav fill variant="tabs" defaultActiveKey='All'>
                     <Col lg={3} md={3} sm={3} xs={3} >
                         <Nav.Item >
-                            <Nav.Link eventKey='All'
-                            
-                            onClick={MenuAll}
-                            >همه
-                                    <Badge variant='success'>{badgecontorlAllTodo}</Badge>
+                            <Nav.Link eventKey='All' onClick={MenuAll}>همه
+                             <Badge variant='success'>{badgecontorlAllTodo}</Badge>
                             </Nav.Link>
                         </Nav.Item>
                     </Col>
                     <Col lg={3} md={3} sm={3} xs={3} >
                         <Nav.Item>
                             <Nav.Link eventKey='Todo'
-                                    onClick={MenuTodo}
+                                onClick={MenuTodo}
                                 className={menuContorlTodo}>درحال انجام
                                     <Badge variant='success'>{badgecontorlTodo}</Badge>
                             </Nav.Link>
@@ -55,7 +52,7 @@ export default function NavComponet(props) {
                     <Col lg={3} md={3} sm={3} xs={3} >
                         <Nav.Item>
                             <Nav.Link eventKey='Done'
-                            onClick={MenuDone}
+                                onClick={MenuDone}
                                 className={menuContorlDone}>انجام شده
                                     <Badge variant='success'>{badgecontorlDone}</Badge>
                             </Nav.Link>

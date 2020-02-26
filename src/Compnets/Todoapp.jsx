@@ -19,7 +19,7 @@ export default function Todoapp() {
 
         let timenow = new Date().getTime();
 
-        let DaleShamsil = MiladotoShamsi()[0] + '/' + MiladotoShamsi()[1] + '/' + MiladotoShamsi()[2]
+        let DateShamsi = MiladotoShamsi()[0] + '/' + MiladotoShamsi()[1] + '/' + MiladotoShamsi()[2]
         setTodoList([
 
             {
@@ -27,7 +27,7 @@ export default function Todoapp() {
                 tododone: false,
                 todoTrash: false,
                 id: timenow,
-                DateGenerit: DaleShamsil,
+                DateGenerit: DateShamsi,
                 EndDay: selectedDay ? selectedDay.year + '/' + selectedDay.month + '/' + selectedDay.day : 'زمان پایان انتخاب نشده'
 
             },
@@ -37,29 +37,32 @@ export default function Todoapp() {
 
 
     }
-
     const HandelDone = idin => {
-        setTodoList(state => ({
-            TodoList: state.TodoList.map((todo, indexTodo) => {
-                if (indexTodo === idin) todo.tododone = !todo.tododone
-                return todo;
-            })
-        }));
+        let findindex = TodoList.findIndex(item=>item.id===idin);
+        console.log(findindex);
+        let TodoListCopy =[...TodoList]
+        let findDoneItem ={...TodoListCopy[findindex]}
+        console.log(findDoneItem);
+        findDoneItem.tododone=!findDoneItem.tododone
+        console.log(findDoneItem);
+        TodoListCopy[findindex]=findDoneItem
+        console.log(TodoList);
+        setTodoList([...TodoList])
+       
 
     }
-
     const handelMenuAll = () => setstatus('All')
     const handelMenuTodo = () => setstatus('Todo')
     const handelMenuDone = () => setstatus('Done')
     const handelMenuTrash = () => setstatus('Trash')
 
     const HandelTerash = (index) => {
-        setTodoList(item => ({
-            TodoList: item.TodoList.map((item2, indexmap) => {
-                if (indexmap === index) { item2.todoTrash = !item2.todoTrash; }
-                return item2
-            })
-        }))
+        // TodoList(item => ({
+        //     TodoList: item.TodoList.map((item2, indexmap) => {
+        //         if (indexmap === index) { item2.todoTrash = !item2.todoTrash; }
+        //         return item2
+        //     })
+        // }))
     }
 
     let Todotask = TodoList.filter((item) => {
@@ -86,7 +89,6 @@ export default function Todoapp() {
         month: MiladotoShamsi()[1],
         day: MiladotoShamsi()[2]
     };
-    console.log();
     return (
         <Container>
             <Row>
@@ -123,6 +125,7 @@ export default function Todoapp() {
             </Row>
             <SearchTodo
                 itemSerch={TodoList}
+               
             />
             <NavComponet
                 TodoList={TodoList}
@@ -136,13 +139,10 @@ export default function Todoapp() {
                         render.map((item, index) => (
                             <AllTodos
                                 key={index}
-                                titlte={item.todotitle}
-                                id={item.id}
-                                time={item.DateGenerit}
-                                EndDayTask={item.EndDay}
-                                tododone={() => HandelDone(index)}
-                                TodoTerash={() => HandelTerash(index)}
-                                status={status}
+                                Arryin={item}
+                                tododone={() => HandelDone(item.id)}
+                                TodoTerash={() => HandelTerash(item.id)}
+                                
 
                             />
                         ))

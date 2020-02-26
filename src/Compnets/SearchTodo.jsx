@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
-import SearchResult from './SearchResult'
+import AllTodos from './AllTodos'
 
 export default function SearchTodo(props) {
     const [Searchvalue, setSearchvalue] = useState('')
@@ -11,14 +11,13 @@ export default function SearchTodo(props) {
 
 
 
-   let SerchinPut =  itemSerch.filter((item)=>{
-        if(item.todotitle==Searchvalue)
-        return true;
+    let SerchinPut = itemSerch.filter((item) => {
+        if (item.todotitle === Searchvalue)
+            return true;
         else
             return false;
     })
 
-console.log(SerchinPut);
     return (
         <Row>
             <Col lg={12} md={12} sm={12} xs={12} className='mt-3'>
@@ -28,21 +27,21 @@ console.log(SerchinPut);
                     type='text'
                     placeholder='جستجو در میان کار ها'
                 />
+                
             </Col>
-            {
-                        SerchinPut?
-                            SerchinPut.map((item, index) => (
-                                <SearchResult
-                                    key={index}
-                                    titlte={item.todotitle}
-                                    id={item.id}
-                                    time={item.DateGenerit}
-                                    EndDayTask={item.EndDay}
-                                    
-                                />
-                            ))
-                        :null
-                    }
+            <Col>
+           <p className='text-center m-2'> {SerchinPut.length>0 ? SerchinPut.length+' مورد یافت شد '  : null}</p>
+                {
+                    SerchinPut ?
+                        SerchinPut.map((item, index) => (
+                            <AllTodos
+                                key={index}
+                                Arryin={item}
+                            />
+                        ))
+                        : null
+                }
+            </Col>
         </Row>
     )
 }
