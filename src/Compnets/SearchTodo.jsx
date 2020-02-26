@@ -9,9 +9,9 @@ export default function SearchTodo(props) {
 
     const HandelSearch = e => setSearchvalue(e.target.value)
 
+    const SerachMax = itemSerch ? itemSerch.slice(0, 10) : null
 
-
-    let SerchinPut = itemSerch.filter((item) => {
+    let SerchinPut = SerachMax.filter((item) => {
         if (item.todotitle === Searchvalue)
             return true;
         else
@@ -27,10 +27,10 @@ export default function SearchTodo(props) {
                     type='text'
                     placeholder='جستجو در میان کار ها'
                 />
-                
+
             </Col>
             <Col>
-           <p className='text-center m-2'> {SerchinPut.length>0 ? SerchinPut.length+' مورد یافت شد '  : null}</p>
+                <p className='text-center m-2'> {SerchinPut.length > 0 ? SerchinPut.length + ' مورد یافت شد ' : null}</p>
                 {
                     SerchinPut ?
                         SerchinPut.map((item, index) => (

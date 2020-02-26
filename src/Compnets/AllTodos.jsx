@@ -1,6 +1,6 @@
 import { Card, Button, Row, Col } from 'react-bootstrap'
 import React from 'react'
-
+import { toast } from 'react-toastify';
 export default function AllTodos(props) {
     const { Arryin } = props;
     let statusBtnEdit = '';
@@ -8,22 +8,23 @@ export default function AllTodos(props) {
     let statusBtnTrashNote = '';
     let statusBtnDone = '';
     let statusBtnDoneNote = '';
-    let bgCardStaus = {};
-    if (Arryin.tododone) {
-        statusBtnDone = ' fa fa-arrow-right ';
-        statusBtnDoneNote = ' بازگشت به در حال انجام  ';
-        statusBtnEdit = 'fa fa-pencil disabled';
-        statusBtnTrash = 'fa fa-trash';
-        statusBtnTrashNote = ' سطل زباله ';
-        bgCardStaus = { backgroundColor: "#d2fabb" };
-    }
-    else if (Arryin.todoTrash) {
+    let bgCardStatus = {};
+
+    if (Arryin.todoTrash) {
         statusBtnDone = 'fa  fa-check disabled ';
         statusBtnDoneNote = 'انجام شده ';
         statusBtnEdit = 'fa fa-pencil disabled';
         statusBtnTrash = 'fa fa-refresh';
         statusBtnTrashNote = ' باز گشت  ';
-        bgCardStaus = { backgroundColor: "#ff6a6a" };
+        bgCardStatus = { backgroundColor: "#ff6a6a" };
+        toast.error('به سطل زباله منتقل شد.', {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }
     else {
         statusBtnDone = ' fa  fa-check ';
@@ -31,15 +32,30 @@ export default function AllTodos(props) {
         statusBtnEdit = 'fa fa-pencil ';
         statusBtnTrash = 'fa fa-trash';
         statusBtnTrashNote = ' سطل زباله ';
-        bgCardStaus = { backgroundColor: "#f4fbff" };
+        bgCardStatus = { backgroundColor: "#f4fbff" };
     }
-if(Arryin.DateGenerit===Arryin.EndDay){
-    bgCardStaus = { backgroundColor: "rgba(255, 225, 78, 0.73)" };
-}
-
+    if (Arryin.DateGenerit === Arryin.EndDay) {
+        bgCardStatus = { backgroundColor: "rgba(255, 225, 78, 0.73)" };
+    }
+    if (Arryin.tododone) {
+        statusBtnDone = ' fa fa-arrow-right ';
+        statusBtnDoneNote = ' بازگشت به در حال انجام  ';
+        statusBtnEdit = 'fa fa-pencil disabled';
+        statusBtnTrash = 'fa fa-trash';
+        statusBtnTrashNote = ' سطل زباله ';
+        bgCardStatus = { backgroundColor: "#d2fabb" };
+        toast.success('پایان کار ثبت شد', {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+    }
     return (
         <Card className='mt-3 mb-3'>
-            <Card.Body style={bgCardStaus}>
+            <Card.Body style={bgCardStatus}>
                 {Arryin.todotitle}
                 <Row>
                     <Col>ایجاد شده در:<br />

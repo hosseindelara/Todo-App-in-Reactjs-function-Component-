@@ -2,21 +2,21 @@ import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import AllTodos from './AllTodos'
 import NavComponet from './NavComponet';
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import DatePicker from "react-modern-calendar-datepicker";
 import SearchTodo from './SearchTodo';
+import DatePicker from "react-modern-calendar-datepicker";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 export default function Todoapp() {
     const [title, settitle] = useState('')
     const [status, setstatus] = useState('All')
-    const [TodoList, setTodoList] = useState([])
+    const [TodoList, setTodoList] = useState(localStorage.getItem('todoListStorig') || [])
     const [selectedDay, setSelectedDay] = useState(null);
 
     const HandelOnchngTodo = e => settitle(e.target.value)
 
     const HandleSubmit = (e) => {
         e.preventDefault();
-
         let timenow = new Date().getTime();
 
         let DateShamsi = MiladotoShamsi()[0] + '/' + MiladotoShamsi()[1] + '/' + MiladotoShamsi()[2]
@@ -33,36 +33,48 @@ export default function Todoapp() {
             },
             ...TodoList],
         );
+
         settitle('');
 
+        //localStorage.setItem('todoListStorig',[TodoList])
 
+        toast.success('کار جدید اضافه شد', {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     }
-    const HandelDone = idin => {
-        let findindex = TodoList.findIndex(item=>item.id===idin);
-        console.log(findindex);
-        let TodoListCopy =[...TodoList]
-        let findDoneItem ={...TodoListCopy[findindex]}
-        console.log(findDoneItem);
-        findDoneItem.tododone=!findDoneItem.tododone
-        console.log(findDoneItem);
-        TodoListCopy[findindex]=findDoneItem
-        console.log(TodoList);
-        setTodoList([...TodoList])
-       
 
+
+    const HandelDone = idin => {
+        TodoList.map((item) => {
+            if (item.id === idin) {
+                return item.tododone = !item.tododone
+            }
+            else {
+                return item
+            }
+        })
+        setTodoList([...TodoList])
     }
     const handelMenuAll = () => setstatus('All')
     const handelMenuTodo = () => setstatus('Todo')
     const handelMenuDone = () => setstatus('Done')
     const handelMenuTrash = () => setstatus('Trash')
 
-    const HandelTerash = (index) => {
-        // TodoList(item => ({
-        //     TodoList: item.TodoList.map((item2, indexmap) => {
-        //         if (indexmap === index) { item2.todoTrash = !item2.todoTrash; }
-        //         return item2
-        //     })
-        // }))
+    const HandelTerash = (iditem) => {
+        TodoList.map((item) => {
+            if (item.id === iditem) {
+                return item.todoTrash = !item.todoTrash
+            }
+            else {
+                return item
+            }
+        })
+        setTodoList([...TodoList])
     }
 
     let Todotask = TodoList.filter((item) => {
@@ -125,7 +137,7 @@ export default function Todoapp() {
             </Row>
             <SearchTodo
                 itemSerch={TodoList}
-               
+
             />
             <NavComponet
                 TodoList={TodoList}
@@ -142,13 +154,14 @@ export default function Todoapp() {
                                 Arryin={item}
                                 tododone={() => HandelDone(item.id)}
                                 TodoTerash={() => HandelTerash(item.id)}
-                                
+
 
                             />
                         ))
                     }
                 </Col>
             </Row>
+            <ToastContainer />
         </Container>
     )
 }
