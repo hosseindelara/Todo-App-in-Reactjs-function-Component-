@@ -22,6 +22,7 @@ export default function SearchTodo(props) {
         <Row>
             <Col lg={12} md={12} sm={12} xs={12} className='mt-3'>
                 <Form.Control
+                    required
                     value={Searchvalue}
                     onChange={HandelSearch}
                     type='text'

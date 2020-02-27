@@ -1,6 +1,5 @@
 import { Card, Button, Row, Col } from 'react-bootstrap'
 import React from 'react'
-import { toast } from 'react-toastify';
 export default function AllTodos(props) {
     const { Arryin } = props;
     let statusBtnEdit = '';
@@ -17,15 +16,7 @@ export default function AllTodos(props) {
         statusBtnTrash = 'fa fa-refresh';
         statusBtnTrashNote = ' باز گشت  ';
         bgCardStatus = { backgroundColor: "#ff6a6a" };
-        toast.error('به سطل زباله منتقل شد.', {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
-        console.log('todoTrash');
+        
     }
     else {
         statusBtnDone = ' fa  fa-check ';
@@ -45,14 +36,7 @@ export default function AllTodos(props) {
         statusBtnTrash = 'fa fa-trash';
         statusBtnTrashNote = ' سطل زباله ';
         bgCardStatus = { backgroundColor: "#d2fabb" };
-        toast.success('پایان کار ثبت شد', {
-            position: "bottom-left",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
+        
     }
     return (
         <Card className='mt-3 mb-3'>

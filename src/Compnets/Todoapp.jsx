@@ -53,19 +53,41 @@ export default function Todoapp() {
 
     const HandelDone = idin => {
         TodoList.map((item) => {
+            
             if (item.id === idin) {
-
                 item.tododone = !item.tododone
                 if (item.todoTrash) {
                     item.todoTrash = false
                 }
-
+                if (item.tododone) {
+                    toast.success('پایان کار ثبت شد', {
+                        position: "bottom-left",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                }
+                else {
+                    toast.info('به کارهای درحال انجام منتقل شد.', {
+                        position: "bottom-left",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                    });
+                }
+ 
             }
             else {
                 return item
             }
         })
         setTodoList([...TodoList])
+
+
     }
     const handelMenuAll = () => setstatus('All')
     const handelMenuTodo = () => setstatus('Todo')
@@ -80,6 +102,26 @@ export default function Todoapp() {
                     if (item.tododone) {
                         item.tododone = false
                     }
+                    if (item.todoTrash) {
+                        toast.error('به سطل زباله منتقل شد.', {
+                            position: "bottom-left",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                        });
+                    }
+                    else {
+                        toast.info('به کارهای درحال انجام منتقل شد.', {
+                            position: "bottom-left",
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                        });
+                    }
                 }
                 else {
                     return item
@@ -87,6 +129,7 @@ export default function Todoapp() {
             })
             setTodoList([...TodoList])
         }
+
     }
 
     let Todotask = TodoList.filter((item) => {
@@ -121,6 +164,7 @@ export default function Todoapp() {
                         <Form.Row>
                             <Col lg={6} md={6} sm={6} xs={12} className='mt-3'>
                                 <Form.Control
+                                    required
                                     placeholder='اضافه کردن کار....'
                                     type='text'
                                     value={title}
