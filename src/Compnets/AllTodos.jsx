@@ -25,6 +25,7 @@ export default function AllTodos(props) {
             pauseOnHover: true,
             draggable: true,
         });
+        console.log('todoTrash');
     }
     else {
         statusBtnDone = ' fa  fa-check ';

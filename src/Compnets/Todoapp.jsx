@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Form, Button } from 'react-bootstrap'
 import AllTodos from './AllTodos'
 import NavComponet from './NavComponet';
@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function Todoapp() {
     const [title, settitle] = useState('')
     const [status, setstatus] = useState('All')
-    const [TodoList, setTodoList] = useState(localStorage.getItem('todoListStorig') || [])
+    const [TodoList, setTodoList] = useState(JSON.parse(localStorage.getItem('todoListStorig')) || [])
     const [selectedDay, setSelectedDay] = useState(null);
 
     const HandelOnchngTodo = e => settitle(e.target.value)
@@ -36,7 +36,7 @@ export default function Todoapp() {
 
         settitle('');
 
-        //localStorage.setItem('todoListStorig',[TodoList])
+
 
         toast.success('کار جدید اضافه شد', {
             position: "bottom-right",
@@ -47,12 +47,19 @@ export default function Todoapp() {
             draggable: true,
         });
     }
-
+    useEffect(() => {
+        localStorage.setItem('todoListStorig', JSON.stringify(TodoList))
+    })
 
     const HandelDone = idin => {
         TodoList.map((item) => {
             if (item.id === idin) {
-                return item.tododone = !item.tododone
+
+                item.tododone = !item.tododone
+                if (item.todoTrash) {
+                    item.todoTrash = false
+                }
+
             }
             else {
                 return item
@@ -66,15 +73,20 @@ export default function Todoapp() {
     const handelMenuTrash = () => setstatus('Trash')
 
     const HandelTerash = (iditem) => {
-        TodoList.map((item) => {
-            if (item.id === iditem) {
-                return item.todoTrash = !item.todoTrash
-            }
-            else {
-                return item
-            }
-        })
-        setTodoList([...TodoList])
+        if (TodoList) {
+            TodoList.map((item) => {
+                if (item.id === iditem) {
+                    item.todoTrash = !item.todoTrash
+                    if (item.tododone) {
+                        item.tododone = false
+                    }
+                }
+                else {
+                    return item
+                }
+            })
+            setTodoList([...TodoList])
+        }
     }
 
     let Todotask = TodoList.filter((item) => {
@@ -137,7 +149,6 @@ export default function Todoapp() {
             </Row>
             <SearchTodo
                 itemSerch={TodoList}
-
             />
             <NavComponet
                 TodoList={TodoList}
@@ -154,8 +165,6 @@ export default function Todoapp() {
                                 Arryin={item}
                                 tododone={() => HandelDone(item.id)}
                                 TodoTerash={() => HandelTerash(item.id)}
-
-
                             />
                         ))
                     }
